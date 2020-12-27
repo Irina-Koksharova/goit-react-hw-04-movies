@@ -1,26 +1,13 @@
+// import { useState, useEffect } from 'react';
 import s from './TrendingList.module.css';
+// import { fetchMovies } from '../../services/api-movies';
+import List from '../List';
 
-const TrendingList = () => {
+const TrendingList = ({ movies }) => {
   return (
     <>
       <h2 className={s.title}>Trending today</h2>
-      <ul>
-        <li>
-          <a className={s.link} href="/">
-            Film
-          </a>
-        </li>
-        <li>
-          <a className={s.link} href="/">
-            Film
-          </a>
-        </li>
-        <li>
-          <a className={s.link} href="/">
-            Film
-          </a>
-        </li>
-      </ul>
+      <List movies={movies} />
     </>
   );
 };
