@@ -1,9 +1,10 @@
-const getGenresNames = (list, names) => {
-  let namesList = [];
-  for (let i = 0; i < list.length; i += 1) {
-    namesList.push(names.find(name => name.id === list[i]).name);
-  }
-  return namesList.join(', ');
+const getGenresNames = genres => {
+  return genres
+    .reduce((list, genre) => {
+      list.push(genre.name);
+      return list;
+    }, [])
+    .join(' ');
 };
 
 export { getGenresNames };

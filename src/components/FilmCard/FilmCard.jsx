@@ -1,18 +1,37 @@
 import s from './FilmCard.module.css';
 import { getGenresNames } from '../../services/getGenresNames';
-import { genres } from '../../services/genres';
 
-const FilmCard = ({ movies }) => {
-  const genre_ids = [99, 35, 16, 18, 80];
+const FilmCard = ({ movie }) => {
+  const imageURL = 'https://image.tmdb.org/t/p/w400';
 
   return (
     <>
-      <img className={s.image} src={movies.poster_path} alt={movies.title} />
-      <h2 className={s.titleMain}>{movies.title}</h2>
-      <h3 className={s.title}>Overview</h3>
-      <p className={s.text}>{movies.overview}</p>
-      <h3 className={s.title}>Genres</h3>
-      <p>{getGenresNames(genre_ids, genres)}</p>
+      <div className={s.container}>
+        <div className={s.containerImage}>
+          <img
+            className={s.image}
+            src={imageURL + movie.poster_path}
+            alt={movie.title}
+          />
+        </div>
+        <div>
+          <h2>{movie.title + ` (${movie.release_date.slice(0, 4)})`}</h2>
+          <h3>{`User score: ${Math.round(movie.vote_average)}%`}</h3>
+          <h3>Overview</h3>
+          <p>{movie.overview}</p>
+          <h3>Genres</h3>
+          <p>{getGenresNames(movie.genres)}</p>
+          <h3>Editional information</h3>
+          <ul>
+            <li>
+              <a href="/">Cast</a>
+            </li>
+            <li>
+              <a href="/">Reviews</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </>
   );
 };
