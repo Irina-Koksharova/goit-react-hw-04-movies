@@ -9,5 +9,10 @@
   display: inline-block;
   padding: 25px;
   color: rgb(85, 83, 83);
-  font-size: 20px;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.activeLink {
+  color: rgb(248, 100, 14);
 }

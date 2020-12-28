@@ -5,9 +5,14 @@ const fetchTrendingMovies = () => {
   return fetch(TrendingURL).then(response => response.json());
 };
 
-const fetchMovies = id => {
-  const MovieURL = `https://api.themoviedb.org/3/movie/${id}?api_key=${KEY}&language=en-US`;
-  return fetch(MovieURL).then(response => response.json());
+const fetchSelectedMovies = id => {
+  const SelectedMovieURL = `https://api.themoviedb.org/3/movie/${id}?api_key=${KEY}&language=en-US`;
+  return fetch(SelectedMovieURL).then(response => response.json());
 };
 
-export { fetchTrendingMovies, fetchMovies };
+const fetchSearchingMovie = searchQuery => {
+  const searchingMovieURL = `https://api.themoviedb.org/3/search/movie?api_key=${KEY}&language=en-US&query=${searchQuery}&page=1&include_adult=false`;
+  return fetch(searchingMovieURL).then(response => response.json());
+};
+
+export { fetchTrendingMovies, fetchSelectedMovies, fetchSearchingMovie };

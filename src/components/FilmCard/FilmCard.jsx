@@ -3,6 +3,7 @@ import { getGenresNames } from '../../services/getGenresNames';
 
 const FilmCard = ({ movie }) => {
   const imageURL = 'https://image.tmdb.org/t/p/w400';
+  console.log(movie);
 
   return (
     <>

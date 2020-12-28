@@ -1,0 +1,57 @@
+.form {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  width: 400px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  outline: none;
+  border: 1px solid rgb(85, 83, 83);
+  border-radius: 8px;
+}
+
+.input:hover {
+  transform: scale(1.01);
+}
+
+.input:focus {
+  border: 2px solid rgb(248, 100, 14);
+  transform: scale(1.01);
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 250px;
+  min-height: 50px;
+  margin: 0;
+  padding: 8px;
+  background-color: rgb(248, 100, 14);
+  color: white;
+  font-size: 20px;
+  border: 2px solid rgb(248, 100, 14);
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  transform: scale(1.01);
+}
+
+.reactIcons {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  color: white;
+}

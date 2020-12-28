@@ -1,35 +1,34 @@
 import { useState, useEffect } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import Container from '../Container';
 import Navigation from '../Navigation';
 import Section from '../Section';
-import TrendingList from '../TrendingList';
-import { fetchTrendingMovies, fetchMovies } from '../../services/api-movies';
-import FilmCard from '../FilmCard';
+import TrendingListView from '../../views/TrendingListView';
+import { fetchTrendingMovies } from '../../services/api-movies';
+import SearchMoviesView from '../../views/SearchMoviesView';
 
 const App = () => {
   const [trendingList, setTrendingList] = useState(null);
-  const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     fetchTrendingMovies().then(({ results }) => setTrendingList(results));
   }, []);
-
-  const getSelectedMovie = e => {
-    e.preventDefault();
-    fetchMovies(e.target.id).then(response => setSelectedMovie(response));
-  };
 
   return (
     <Container>
       <Navigation />
 
       <Section>
-        {trendingList && (
-          <TrendingList movies={trendingList} onSelect={getSelectedMovie} />
-        )}
-      </Section>
+        <Switch>
+          <Route path="/" exact>
+            {trendingList && <TrendingListView movies={trendingList} />}
+          </Route>
 
-      <Section>{selectedMovie && <FilmCard movie={selectedMovie} />}</Section>
+          <Route path="/movies">
+            <SearchMoviesView />
+          </Route>
+        </Switch>
+      </Section>
     </Container>
   );
 };
