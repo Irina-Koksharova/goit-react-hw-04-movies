@@ -15,4 +15,15 @@ const fetchSearchingMovie = searchQuery => {
   return fetch(searchingMovieURL).then(response => response.json());
 };
 
-export { fetchTrendingMovies, fetchSelectedMovies, fetchSearchingMovie };
+const fetchCast = id => {
+  const castSelectedMovieURL = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${KEY}&language=en-US`;
+  // https://api.themoviedb.org/3/movie/10588/credits?api_key=4e322550b5c9960e34a834ce1dfdbedc&language=en-US
+  return fetch(castSelectedMovieURL).then(response => response.json());
+};
+
+export {
+  fetchTrendingMovies,
+  fetchSelectedMovies,
+  fetchSearchingMovie,
+  fetchCast,
+};

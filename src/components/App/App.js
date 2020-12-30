@@ -6,6 +6,8 @@ import Section from '../Section';
 import TrendingListView from '../../views/TrendingListView';
 import { fetchTrendingMovies } from '../../services/api-movies';
 import SearchMoviesView from '../../views/SearchMoviesView';
+// import FilmCardView from '../../views/FilmCardView';
+import MovieCardView from '../../views/MovieCardView';
 
 const App = () => {
   const [trendingList, setTrendingList] = useState(null);
@@ -24,8 +26,12 @@ const App = () => {
             {trendingList && <TrendingListView movies={trendingList} />}
           </Route>
 
-          <Route path="/movies">
+          <Route path="/movies" exact>
             <SearchMoviesView />
+          </Route>
+
+          <Route path="/movies/:movieId">
+            <MovieCardView />
           </Route>
         </Switch>
       </Section>

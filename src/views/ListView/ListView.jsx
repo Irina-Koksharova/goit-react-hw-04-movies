@@ -1,27 +1,20 @@
-import { useState } from 'react';
+import { Link, useRouteMatch } from 'react-router-dom';
 import s from './ListView.module.css';
-import { fetchSelectedMovies } from '../../services/api-movies';
+import defaultFoto from '../../error.jpg';
 
 const ListView = ({ movies }) => {
-  const [selectedMovie, setSelectedMovie] = useState(null);
   const imageURL = 'https://image.tmdb.org/t/p/w400';
-
-  const getSelectedMovie = e => {
-    e.preventDefault();
-    fetchSelectedMovies(e.target.id).then(response =>
-      setSelectedMovie(response),
-    );
-  };
+  const { url } = useRouteMatch();
 
   return (
     <ul className={s.list}>
       {movies.map(({ id, title, poster_path, release_date }) => (
         <li className={s.item} key={id}>
-          <a className={s.link} href="/" id={id} onClick={getSelectedMovie}>
+          <Link className={s.link} to={`${url}/${id}`}>
             <div className={s.containerImage}>
               <img
                 className={s.image}
-                src={imageURL + poster_path}
+                src={poster_path ? imageURL + poster_path : defaultFoto}
                 alt={title}
               />
             </div>
@@ -30,7 +23,7 @@ const ListView = ({ movies }) => {
                 {title + ` (${release_date.slice(0, 4)})`}
               </p>
             </div>
-          </a>
+          </Link>
         </li>
       ))}
     </ul>
