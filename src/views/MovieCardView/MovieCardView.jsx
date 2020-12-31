@@ -4,6 +4,7 @@ import s from './MovieCardView.module.css';
 import { fetchSelectedMovies } from '../../services/api-movies';
 import { getGenresNames } from '../../services/getGenresNames';
 import CastView from '../CastView';
+import defaultFoto from '../../error.jpg';
 
 const MovieCardView = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -21,7 +22,11 @@ const MovieCardView = () => {
           <div className={s.containerImage}>
             <img
               className={s.image}
-              src={imageURL + selectedMovie.poster_path}
+              src={
+                selectedMovie.poster_path
+                  ? imageURL + selectedMovie.poster_path
+                  : defaultFoto
+              }
               alt={selectedMovie.title}
             />
           </div>
@@ -42,7 +47,11 @@ const MovieCardView = () => {
               <li>
                 <Link to="/">
                   Cast
-                  <CastView title="Cast" id={selectedMovie.id} />
+                  <CastView
+                    title="Cast"
+                    bookTitle={selectedMovie.title}
+                    id={selectedMovie.id}
+                  />
                 </Link>
                 {/* <a href="/">Cast</a> */}
               </li>

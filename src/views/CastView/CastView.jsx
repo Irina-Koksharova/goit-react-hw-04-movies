@@ -3,7 +3,7 @@ import s from './CastView.module.css';
 import { fetchCast } from '../../services/api-movies';
 import defaultFoto from '../../error.jpg';
 
-const CastView = ({ title, id }) => {
+const CastView = ({ title, bookTitle, id }) => {
   const [cast, setCast] = useState(null);
   const imageURL = 'https://image.tmdb.org/t/p/w400';
 
@@ -27,7 +27,7 @@ const CastView = ({ title, id }) => {
                 alt={actor.original_name}
               />
               <p>{actor.original_name}</p>
-              <p>{`Character: ${actor.character}`}</p>
+              <p>{`Character: ${actor.character} / ${bookTitle}`}</p>
             </li>
           ))}
         </ul>
