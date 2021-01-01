@@ -1,19 +1,29 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, NavLink, useRouteMatch, Route } from 'react-router-dom';
 import s from './MovieCardView.module.css';
-import { fetchSelectedMovies } from '../../services/api-movies';
+import { fetchSelectedMovies, fetchCast } from '../../services/api-movies';
 import { getGenresNames } from '../../services/getGenresNames';
 import CastView from '../CastView';
 import defaultFoto from '../../error.jpg';
 
 const MovieCardView = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [cast, setCast] = useState(null);
   const { movieId } = useParams();
+  const { url } = useRouteMatch();
   const imageURL = 'https://image.tmdb.org/t/p/w400';
+  const links = {
+    cast: 'Cast',
+    reviews: 'Reviews',
+  };
 
   useEffect(() => {
     fetchSelectedMovies(movieId).then(response => setSelectedMovie(response));
   }, [movieId]);
+
+  const onButtonClick = () => {
+    return fetchCast(movieId).then(response => setCast(response.cast));
+  };
 
   return (
     <>
@@ -45,26 +55,22 @@ const MovieCardView = () => {
             <h3 className={s.subtitle}>Editional information</h3>
             <ul>
               <li>
-                <Link to="/">
-                  Cast
-                  <CastView
-                    title="Cast"
-                    bookTitle={selectedMovie.title}
-                    id={selectedMovie.id}
-                  />
-                </Link>
-                {/* <a href="/">Cast</a> */}
+                <NavLink to={`${url}/cast`} onClick={onButtonClick}>
+                  {links.cast}
+                </NavLink>
               </li>
-              {/* <li>
-                            <Link>
-                                <CastView />
-                            </Link>
-                            <a href="/">Reviews</a>
-                        </li> */}
+              <li>
+                <NavLink to={`${url}`}>{links.reviews}</NavLink>
+              </li>
             </ul>
           </div>
         </div>
       )}
+      <Route path="/movies/:movieId/cast">
+        {cast && (
+          <CastView title={links.cast} movie={selectedMovie} cast={cast} />
+        )}
+      </Route>
     </>
   );
 };

@@ -6,7 +6,6 @@ import Section from '../Section';
 import TrendingListView from '../../views/TrendingListView';
 import { fetchTrendingMovies } from '../../services/api-movies';
 import SearchMoviesView from '../../views/SearchMoviesView';
-// import FilmCardView from '../../views/FilmCardView';
 import MovieCardView from '../../views/MovieCardView';
 
 const App = () => {

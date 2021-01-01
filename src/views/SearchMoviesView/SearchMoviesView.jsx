@@ -5,7 +5,7 @@ import ListView from '../../views/ListView';
 import { fetchSearchingMovie } from '../../services/api-movies';
 
 const SearchMoviesView = () => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(null);
   const location = useLocation();
   const queryUrl = new URLSearchParams(location.search).get('query') ?? '';
 
@@ -14,6 +14,7 @@ const SearchMoviesView = () => {
       return;
     }
     fetchSearchingMovie(queryUrl).then(({ results }) => setQuery(results));
+    return () => setQuery(null);
   }, [queryUrl]);
 
   const onFormSubmit = query => {
