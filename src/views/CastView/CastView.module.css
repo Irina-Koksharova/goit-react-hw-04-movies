@@ -5,6 +5,7 @@
 
 .title {
   margin: 0px 0px 20px;
+  text-transform: capitalize;
 }
 
 .container {

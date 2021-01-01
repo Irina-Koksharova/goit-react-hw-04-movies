@@ -1,16 +1,15 @@
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import s from './ListView.module.css';
 import defaultFoto from '../../error.jpg';
 
 const ListView = ({ movies }) => {
   const imageURL = 'https://image.tmdb.org/t/p/w400';
-  const { url } = useRouteMatch();
 
   return (
     <ul className={s.list}>
       {movies.map(({ id, title, poster_path, release_date }) => (
         <li className={s.item} key={id}>
-          <Link className={s.link} to={`${url}/${id}`}>
+          <Link className={s.link} to={`/movies/${id}`}>
             <div className={s.containerImage}>
               <img
                 className={s.image}

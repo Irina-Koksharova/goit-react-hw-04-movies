@@ -1,29 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useParams, NavLink, useRouteMatch, Route } from 'react-router-dom';
 import s from './MovieCardView.module.css';
-import { fetchSelectedMovies, fetchCast } from '../../services/api-movies';
+import { fetchSelectedMovies } from '../../services/api-movies';
 import { getGenresNames } from '../../services/getGenresNames';
 import CastView from '../CastView';
 import defaultFoto from '../../error.jpg';
 
 const MovieCardView = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [cast, setCast] = useState(null);
   const { movieId } = useParams();
   const { url } = useRouteMatch();
   const imageURL = 'https://image.tmdb.org/t/p/w400';
   const links = {
-    cast: 'Cast',
-    reviews: 'Reviews',
+    cast: 'cast',
+    reviews: 'reviews',
   };
 
   useEffect(() => {
-    fetchSelectedMovies(movieId).then(response => setSelectedMovie(response));
+    fetchSelectedMovies(movieId).then(setSelectedMovie);
   }, [movieId]);
-
-  const onButtonClick = () => {
-    return fetchCast(movieId).then(response => setCast(response.cast));
-  };
 
   return (
     <>
@@ -53,23 +48,33 @@ const MovieCardView = () => {
             <h3 className={s.subtitle}>Genres</h3>
             <p className={s.text}>{getGenresNames(selectedMovie.genres)}</p>
             <h3 className={s.subtitle}>Editional information</h3>
-            <ul>
+            <ul className={s.list}>
               <li>
-                <NavLink to={`${url}/cast`} onClick={onButtonClick}>
+                <NavLink
+                  className={s.link}
+                  activeClassName={s.activeLink}
+                  to={`${url}/${links.cast}`}
+                  exact
+                >
                   {links.cast}
                 </NavLink>
               </li>
               <li>
-                <NavLink to={`${url}`}>{links.reviews}</NavLink>
+                <NavLink
+                  className={s.link}
+                  activeClassName={s.activeLink}
+                  to={`${url}/${links.reviews}`}
+                  exact
+                >
+                  {links.reviews}
+                </NavLink>
               </li>
             </ul>
           </div>
         </div>
       )}
       <Route path="/movies/:movieId/cast">
-        {cast && (
-          <CastView title={links.cast} movie={selectedMovie} cast={cast} />
-        )}
+        <CastView title={links.cast} movie={selectedMovie} />
       </Route>
     </>
   );

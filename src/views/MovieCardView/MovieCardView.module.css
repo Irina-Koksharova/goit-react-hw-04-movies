@@ -3,8 +3,8 @@
 }
 
 .containerImage {
-  min-width: 350px;
-  height: 500px;
+  min-width: 450px;
+  height: 600px;
   margin-right: 50px;
   padding: 20px;
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
@@ -32,9 +32,28 @@
 }
 
 .text {
-  margin: 0px 0px 15px;
+  margin: 0px 0px 10px;
   font-size: 18px;
   font-weight: 500;
   line-height: 1.7;
   letter-spacing: 0.4px;
+}
+
+.link {
+  display: inline-block;
+  color: rgb(85, 83, 83);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.7;
+  letter-spacing: 0.4px;
+  text-transform: capitalize;
+}
+
+.link:hover {
+  color: rgb(248, 100, 14);
+  transform: scale(1.02);
+}
+
+.activeLink {
+  color: rgb(248, 100, 14);
 }
