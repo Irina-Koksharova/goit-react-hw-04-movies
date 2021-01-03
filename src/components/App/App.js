@@ -15,6 +15,13 @@ const App = () => {
     fetchTrendingMovies().then(({ results }) => setTrendingList(results));
   }, []);
 
+  // useEffect(() => {
+  //   fetchTrendingMovies().then(response => {
+  //     console.log(response)
+  //     setTrendingList(response.results)
+  //   });
+  // }, []);
+
   return (
     <Container>
       <Navigation />

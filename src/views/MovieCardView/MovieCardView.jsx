@@ -9,7 +9,7 @@ import defaultFoto from '../../error.jpg';
 const MovieCardView = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const { movieId } = useParams();
-  const { url } = useRouteMatch();
+  const { url, path } = useRouteMatch();
   const imageURL = 'https://image.tmdb.org/t/p/w400';
   const links = {
     cast: 'cast',
@@ -73,7 +73,7 @@ const MovieCardView = () => {
           </div>
         </div>
       )}
-      <Route path="/movies/:movieId/cast">
+      <Route path={`${path}/cast`}>
         <CastView title={links.cast} movie={selectedMovie} />
       </Route>
     </>
