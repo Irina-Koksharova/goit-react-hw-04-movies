@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import s from './HomePage.module.css';
 import { fetchTrendingMovies } from '../../services/api-movies';
 import SortSelector from '../../components/SortSelector';
@@ -6,23 +7,38 @@ import MoviesList from '../../components/MoviesList';
 import { options } from '../../data/selector-data';
 
 const HomePage = () => {
-  const [selector, setSelector] = useState(options[0]);
   const [trendingList, setTrendingList] = useState(null);
+  const history = useHistory();
+  const location = useLocation();
+  const currentSelector =
+    new URLSearchParams(location.search).get('selected') ?? options[0];
 
   useEffect(() => {
-    fetchTrendingMovies(selector).then(({ results }) =>
+    if (location.search === '') {
+      history.push({
+        ...location,
+        search: `selected=${options[0]}`,
+      });
+    }
+    fetchTrendingMovies(currentSelector).then(({ results }) =>
       setTrendingList(results),
     );
-  }, [selector]);
+  }, [currentSelector, history, location]);
+
+  const onChangeSelector = e => {
+    history.push({
+      ...location,
+      search: `selected=${e.target.value}`,
+    });
+  };
 
   return (
     <>
       <h2 className={s.title}>Trending today</h2>
       <SortSelector
         options={options}
-        onChange={e => {
-          setSelector(e.target.value);
-        }}
+        value={currentSelector}
+        onChange={onChangeSelector}
       />
       {trendingList && <MoviesList movies={trendingList} />}
     </>

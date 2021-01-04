@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import s from './MoviesList.module.css';
-import defaultFoto from '../../error.jpg';
+import defaultFoto from '../../images/error.jpg';
 
 const MoviesList = ({ movies }) => {
   const imageURL = 'https://image.tmdb.org/t/p/w400';

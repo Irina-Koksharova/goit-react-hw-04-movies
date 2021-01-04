@@ -4,7 +4,7 @@ import s from './MovieDetailsPage.module.css';
 import { fetchSelectedMovies } from '../../services/api-movies';
 import { getGenresNames } from '../../services/getGenresNames';
 import Cast from '../Cast';
-import defaultFoto from '../../error.jpg';
+import defaultFoto from '../../images/error.jpg';
 
 const MovieDetailsPage = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);

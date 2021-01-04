@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import s from './Cast.module.css';
 import { fetchCast } from '../../services/api-movies';
-import defaultFoto from '../../error.jpg';
+import defaultFoto from '../../images/error.jpg';
 
 const Cast = ({ title, movie }) => {
   const [cast, setCast] = useState(null);
