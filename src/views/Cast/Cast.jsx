@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import s from './CastView.module.css';
+import s from './Cast.module.css';
 import { fetchCast } from '../../services/api-movies';
 import defaultFoto from '../../error.jpg';
 
-const CastView = ({ title, movie }) => {
+const Cast = ({ title, movie }) => {
   const [cast, setCast] = useState(null);
   const imageURL = 'https://image.tmdb.org/t/p/w400';
 
@@ -42,4 +42,4 @@ const CastView = ({ title, movie }) => {
   );
 };
 
-export default CastView;
+export default Cast;

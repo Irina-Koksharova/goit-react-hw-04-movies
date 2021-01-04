@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import SearchBar from '../SearchBar';
-import ListView from '../../views/ListView';
+import SearchBar from '../../components/SearchBar';
+import MoviesList from '../../components/MoviesList';
 import { fetchSearchingMovie } from '../../services/api-movies';
 
-const SearchMoviesView = () => {
+const MoviesPage = () => {
   const [query, setQuery] = useState(null);
   const location = useLocation();
   const queryUrl = new URLSearchParams(location.search).get('query') ?? '';
@@ -24,9 +24,9 @@ const SearchMoviesView = () => {
   return (
     <>
       <SearchBar onSubmit={onFormSubmit} />
-      {query && <ListView movies={query} />}
+      {query && <MoviesList movies={query} />}
     </>
   );
 };
 
-export default SearchMoviesView;
+export default MoviesPage;

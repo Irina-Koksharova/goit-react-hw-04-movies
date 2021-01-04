@@ -1,27 +1,12 @@
-import { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Container from '../Container';
 import Navigation from '../Navigation';
 import Section from '../Section';
-import TrendingListView from '../../views/TrendingListView';
-import { fetchTrendingMovies } from '../../services/api-movies';
-import SearchMoviesView from '../../views/SearchMoviesView';
-import MovieCardView from '../../views/MovieCardView';
+import HomePage from '../../views/HomePage';
+import MoviesPage from '../../views/MoviesPage';
+import MovieDetailsPage from '../../views/MovieDetailsPage';
 
 const App = () => {
-  const [trendingList, setTrendingList] = useState(null);
-
-  useEffect(() => {
-    fetchTrendingMovies().then(({ results }) => setTrendingList(results));
-  }, []);
-
-  // useEffect(() => {
-  //   fetchTrendingMovies().then(response => {
-  //     console.log(response)
-  //     setTrendingList(response.results)
-  //   });
-  // }, []);
-
   return (
     <Container>
       <Navigation />
@@ -29,15 +14,15 @@ const App = () => {
       <Section>
         <Switch>
           <Route path="/" exact>
-            {trendingList && <TrendingListView movies={trendingList} />}
+            <HomePage />
           </Route>
 
           <Route path="/movies" exact>
-            <SearchMoviesView />
+            <MoviesPage />
           </Route>
 
           <Route path="/movies/:movieId">
-            <MovieCardView />
+            <MovieDetailsPage />
           </Route>
         </Switch>
       </Section>

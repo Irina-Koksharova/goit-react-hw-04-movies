@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, NavLink, useRouteMatch, Route } from 'react-router-dom';
-import s from './MovieCardView.module.css';
+import s from './MovieDetailsPage.module.css';
 import { fetchSelectedMovies } from '../../services/api-movies';
 import { getGenresNames } from '../../services/getGenresNames';
-import CastView from '../CastView';
+import Cast from '../Cast';
 import defaultFoto from '../../error.jpg';
 
-const MovieCardView = () => {
+const MovieDetailsPage = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const { movieId } = useParams();
   const { url, path } = useRouteMatch();
@@ -74,10 +74,10 @@ const MovieCardView = () => {
         </div>
       )}
       <Route path={`${path}/cast`}>
-        <CastView title={links.cast} movie={selectedMovie} />
+        <Cast title={links.cast} movie={selectedMovie} />
       </Route>
     </>
   );
 };
 
-export default MovieCardView;
+export default MovieDetailsPage;

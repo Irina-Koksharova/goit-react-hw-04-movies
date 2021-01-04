@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 import s from './SearchBar.module.css';
+import Button from '../Button';
 
 const SearchBar = ({ onSubmit }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -30,12 +31,15 @@ const SearchBar = ({ onSubmit }) => {
           }}
         ></input>
       </label>
-      <button className={s.button} type="submit">
-        <IconContext.Provider value={{ className: `${s.reactIcons}` }}>
-          <FiSearch />
-        </IconContext.Provider>
+
+      <Button>
+        {
+          <IconContext.Provider value={{ className: `${s.reactIcons}` }}>
+            <FiSearch />
+          </IconContext.Provider>
+        }
         Search
-      </button>
+      </Button>
     </form>
   );
 };
