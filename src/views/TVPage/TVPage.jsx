@@ -4,7 +4,7 @@ import SearchBar from '../../components/SearchBar';
 import MoviesList from '../../components/MoviesList';
 import { fetchSearchingShow } from '../../services/api-movies';
 
-const MoviesPage = () => {
+const TVPage = () => {
   const [query, setQuery] = useState(null);
   const location = useLocation();
   const queryUrl = new URLSearchParams(location.search).get('query') ?? '';
@@ -13,14 +13,12 @@ const MoviesPage = () => {
     if (queryUrl === '') {
       return;
     }
-    fetchSearchingShow('movie', queryUrl).then(({ results }) => {
-      setQuery(results);
-    });
+    fetchSearchingShow('tv', queryUrl).then(({ results }) => setQuery(results));
     return () => setQuery(null);
   }, [queryUrl]);
 
   const onFormSubmit = query => {
-    fetchSearchingShow('movie', query).then(({ results }) => setQuery(results));
+    fetchSearchingShow('tv', query).then(({ results }) => setQuery(results));
   };
 
   return (
@@ -31,4 +29,4 @@ const MoviesPage = () => {
   );
 };
 
-export default MoviesPage;
+export default TVPage;

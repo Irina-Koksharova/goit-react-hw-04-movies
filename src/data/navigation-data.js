@@ -7,6 +7,10 @@ const navigationLinks = [
     name: 'movies',
     link: '/movies',
   },
+  {
+    name: 'TV',
+    link: '/tv',
+  },
 ];
 
 export { navigationLinks };

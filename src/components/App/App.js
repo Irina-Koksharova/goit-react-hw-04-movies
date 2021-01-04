@@ -4,7 +4,9 @@ import Navigation from '../Navigation';
 import Section from '../Section';
 import HomePage from '../../views/HomePage';
 import MoviesPage from '../../views/MoviesPage';
+import TVPage from '../../views/TVPage';
 import MovieDetailsPage from '../../views/MovieDetailsPage';
+import TVDetailsPage from '../../views/TVDetailsPage';
 
 const App = () => {
   return (
@@ -23,6 +25,14 @@ const App = () => {
 
           <Route path="/movies/:movieId">
             <MovieDetailsPage />
+          </Route>
+
+          <Route path="/tv" exact>
+            <TVPage />
+          </Route>
+
+          <Route path="/tv/:tvId">
+            <TVDetailsPage />
           </Route>
         </Switch>
       </Section>

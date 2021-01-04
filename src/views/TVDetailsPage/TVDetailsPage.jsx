@@ -1,57 +1,51 @@
 import { useState, useEffect } from 'react';
 import { useParams, NavLink, useRouteMatch, Route } from 'react-router-dom';
-import s from './MovieDetailsPage.module.css';
+import s from './TVDetailsPage.module.css';
 import { fetchSelectedShow } from '../../services/api-movies';
 import { getGenresNames } from '../../services/getGenresNames';
+import { dateConversion } from '../../services/date-conversion';
 import { imageURL } from '../../data/url-data';
 import { links } from '../../data/editional-info-data';
 import Cast from '../Cast';
 import defaultFoto from '../../images/error.jpg';
 
-const MovieDetailsPage = () => {
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const { movieId } = useParams();
+const TVDetailsPage = () => {
+  const [selectedTV, setSelectedTV] = useState(null);
+  const { tvId } = useParams();
   const { url, path } = useRouteMatch();
   const { cast, reviews } = links;
 
   useEffect(() => {
-    fetchSelectedShow('movie', movieId).then(setSelectedMovie);
-  }, [movieId]);
-
-  const dateConversion = name => {
-    if (!name) {
-      return;
-    }
-    return ` (${name.slice(0, 4)})`;
-  };
+    fetchSelectedShow('tv', tvId).then(setSelectedTV);
+  }, [tvId]);
 
   return (
     <>
-      {selectedMovie && (
+      {selectedTV && (
         <div className={s.container}>
           <div className={s.containerImage}>
             <img
               className={s.image}
               src={
-                selectedMovie.poster_path
-                  ? imageURL + selectedMovie.poster_path
+                selectedTV.poster_path
+                  ? imageURL + selectedTV.poster_path
                   : defaultFoto
               }
-              alt={selectedMovie.title}
+              alt={selectedTV.original_name}
             />
           </div>
           <div>
             <h2 className={s.title}>
-              {selectedMovie.title +
-                ` (${dateConversion(selectedMovie.release_date)})`}
+              {selectedTV.original_name +
+                ` ${dateConversion(selectedTV.first_air_date)}`}
             </h2>
             <h3 className={s.subtitle}>{`User score: ${
-              selectedMovie.vote_average * 10
+              selectedTV.vote_average * 10
             }%`}</h3>
             <h3 className={s.subtitle}>Overview</h3>
-            <p className={s.text}>{selectedMovie.overview}</p>
+            <p className={s.text}>{selectedTV.overview}</p>
             <h3 className={s.subtitle}>Genres</h3>
-            <p className={s.text}>{getGenresNames(selectedMovie.genres)}</p>
+            <p className={s.text}>{getGenresNames(selectedTV.genres)}</p>
             <h3 className={s.subtitle}>Editional information</h3>
             <ul className={s.list}>
               <li className={s.item}>
@@ -78,11 +72,11 @@ const MovieDetailsPage = () => {
           </div>
         </div>
       )}
-      <Route path={`${path}/cast`}>
-        <Cast title={cast} movie={selectedMovie} />
+      <Route path={`${path}/${cast}`}>
+        <Cast title={cast} movie={selectedTV} />
       </Route>
     </>
   );
 };
 
-export default MovieDetailsPage;
+export default TVDetailsPage;

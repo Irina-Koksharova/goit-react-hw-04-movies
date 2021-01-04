@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import s from './HomePage.module.css';
-import { fetchTrendingMovies } from '../../services/api-movies';
+import { fetchTrendingShow } from '../../services/api-movies';
 import SortSelector from '../../components/SortSelector';
 import MoviesList from '../../components/MoviesList';
 import { options } from '../../data/selector-data';
@@ -20,7 +20,7 @@ const HomePage = () => {
         search: `selected=${options[0]}`,
       });
     }
-    fetchTrendingMovies(currentSelector).then(({ results }) =>
+    fetchTrendingShow(currentSelector).then(({ results }) =>
       setTrendingList(results),
     );
   }, [currentSelector, history, location]);
