@@ -13,7 +13,6 @@ const TVDetailsPage = () => {
   const [selectedTV, setSelectedTV] = useState(null);
   const { tvId } = useParams();
   const { url, path } = useRouteMatch();
-  const { cast, reviews } = links;
 
   useEffect(() => {
     fetchSelectedShow('tv', tvId).then(setSelectedTV);
@@ -48,35 +47,29 @@ const TVDetailsPage = () => {
             <p className={s.text}>{getGenresNames(selectedTV.genres)}</p>
             <h3 className={s.subtitle}>Editional information</h3>
             <ul className={s.list}>
-              <li className={s.item}>
-                <NavLink
-                  className={s.link}
-                  activeClassName={s.activeLink}
-                  to={`${url}/${cast}`}
-                  exact
-                >
-                  {cast}
-                </NavLink>
-              </li>
-              <li className={s.item}>
-                <NavLink
-                  className={s.link}
-                  activeClassName={s.activeLink}
-                  to={`${url}/${reviews}`}
-                  exact
-                >
-                  {reviews}
-                </NavLink>
-              </li>
+              {links.map(link => (
+                <li className={s.item} key={link}>
+                  <NavLink
+                    className={s.link}
+                    activeClassName={s.activeLink}
+                    to={`${url}/${link}`}
+                    exact
+                  >
+                    {link}
+                  </NavLink>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
       )}
-      <Route path={`${path}/${cast}`}>
-        <Cast title={cast} movie={selectedTV} />
+      <Route path={`${path}/${links[0]}`}>
+        <Cast title={links[0]} movie={selectedTV} />
+      </Route>
+      <Route path={`${path}/${links[1]}`}>
+        <Cast title={links[1]} movie={selectedTV} />
       </Route>
     </>
   );
 };
-
 export default TVDetailsPage;

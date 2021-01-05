@@ -1,11 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  useParams,
-  NavLink,
-  useRouteMatch,
-  Route,
-  useLocation,
-} from 'react-router-dom';
+import { useParams, NavLink, useRouteMatch, Route } from 'react-router-dom';
 import s from './MovieDetailsPage.module.css';
 import { fetchSelectedShow } from '../../services/api-movies';
 import { getGenresNames } from '../../services/getGenresNames';
@@ -19,14 +13,10 @@ const MovieDetailsPage = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const { movieId } = useParams();
   const { url, path } = useRouteMatch();
-  const location = useLocation();
-  const { cast, reviews } = links;
 
   useEffect(() => {
-    fetchSelectedShow(location.pathname.slice(1, 6), movieId).then(
-      setSelectedMovie,
-    );
-  }, [location.pathname, movieId]);
+    fetchSelectedShow('movie', movieId).then(setSelectedMovie);
+  }, [movieId]);
 
   return (
     <>
@@ -46,7 +36,7 @@ const MovieDetailsPage = () => {
           <div>
             <h2 className={s.title}>
               {selectedMovie.title +
-                ` (${dateConversion(selectedMovie.release_date)})`}
+                `${dateConversion(selectedMovie.release_date)}`}
             </h2>
             <h3 className={s.subtitle}>{`User score: ${
               selectedMovie.vote_average * 10
@@ -57,32 +47,27 @@ const MovieDetailsPage = () => {
             <p className={s.text}>{getGenresNames(selectedMovie.genres)}</p>
             <h3 className={s.subtitle}>Editional information</h3>
             <ul className={s.list}>
-              <li className={s.item}>
-                <NavLink
-                  className={s.link}
-                  activeClassName={s.activeLink}
-                  to={`${url}/${cast}`}
-                  exact
-                >
-                  {cast}
-                </NavLink>
-              </li>
-              <li className={s.item}>
-                <NavLink
-                  className={s.link}
-                  activeClassName={s.activeLink}
-                  to={`${url}/${reviews}`}
-                  exact
-                >
-                  {reviews}
-                </NavLink>
-              </li>
+              {links.map(link => (
+                <li className={s.item} key={link}>
+                  <NavLink
+                    className={s.link}
+                    activeClassName={s.activeLink}
+                    to={`${url}/${link}`}
+                    exact
+                  >
+                    {link}
+                  </NavLink>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
       )}
-      <Route path={`${path}/cast`}>
-        <Cast title={cast} movie={selectedMovie} />
+      <Route path={`${path}/${links[0]}`}>
+        <Cast title={links[0]} movie={selectedMovie} />
+      </Route>
+      <Route path={`${path}/${links[1]}`}>
+        <Cast title={links[1]} movie={selectedMovie} />
       </Route>
     </>
   );

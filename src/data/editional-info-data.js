@@ -1,6 +1,3 @@
-const links = {
-  cast: 'cast',
-  reviews: 'reviews',
-};
+const links = ['cast', 'reviews'];
 
 export { links };
