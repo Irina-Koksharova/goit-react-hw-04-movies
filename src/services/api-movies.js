@@ -15,8 +15,8 @@ const fetchSearchingShow = (kind, searchQuery) => {
   return fetch(searchingShowURL).then(response => response.json());
 };
 
-const fetchCast = id => {
-  const castSelectedMovieURL = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${KEY}&language=en-US`;
+const fetchCast = (kind, id) => {
+  const castSelectedMovieURL = `https://api.themoviedb.org/3/${kind}/${id}/credits?api_key=${KEY}&language=en-US`;
   return fetch(castSelectedMovieURL).then(response => response.json());
 };
 

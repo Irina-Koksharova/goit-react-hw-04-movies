@@ -13,12 +13,18 @@ const TVPage = () => {
     if (queryUrl === '') {
       return;
     }
-    fetchSearchingShow('tv', queryUrl).then(({ results }) => setQuery(results));
+    fetchSearchingShow(
+      location.pathname.slice(1, 3),
+      queryUrl,
+    ).then(({ results }) => setQuery(results));
     return () => setQuery(null);
-  }, [queryUrl]);
+  }, [location.pathname, queryUrl]);
 
   const onFormSubmit = query => {
-    fetchSearchingShow('tv', query).then(({ results }) => setQuery(results));
+    fetchSearchingShow(
+      location.pathname.slice(1, 3),
+      query,
+    ).then(({ results }) => setQuery(results));
   };
 
   return (

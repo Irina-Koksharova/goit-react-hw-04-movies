@@ -20,7 +20,7 @@ const HomePage = () => {
         search: `selected=${options[0]}`,
       });
     }
-    fetchTrendingShow(currentSelector).then(({ results }) =>
+    fetchTrendingShow(currentSelector.slice(0, 5)).then(({ results }) =>
       setTrendingList(results),
     );
   }, [currentSelector, history, location]);

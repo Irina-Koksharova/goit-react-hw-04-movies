@@ -1,8 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useParams, NavLink, useRouteMatch, Route } from 'react-router-dom';
+import {
+  useParams,
+  NavLink,
+  useRouteMatch,
+  Route,
+  useLocation,
+} from 'react-router-dom';
 import s from './MovieDetailsPage.module.css';
 import { fetchSelectedShow } from '../../services/api-movies';
 import { getGenresNames } from '../../services/getGenresNames';
+import { dateConversion } from '../../services/date-conversion';
 import { imageURL } from '../../data/url-data';
 import { links } from '../../data/editional-info-data';
 import Cast from '../Cast';
@@ -12,18 +19,14 @@ const MovieDetailsPage = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const { movieId } = useParams();
   const { url, path } = useRouteMatch();
+  const location = useLocation();
   const { cast, reviews } = links;
 
   useEffect(() => {
-    fetchSelectedShow('movie', movieId).then(setSelectedMovie);
-  }, [movieId]);
-
-  const dateConversion = name => {
-    if (!name) {
-      return;
-    }
-    return ` (${name.slice(0, 4)})`;
-  };
+    fetchSelectedShow(location.pathname.slice(1, 6), movieId).then(
+      setSelectedMovie,
+    );
+  }, [location.pathname, movieId]);
 
   return (
     <>

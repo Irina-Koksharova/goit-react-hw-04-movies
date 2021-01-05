@@ -13,14 +13,19 @@ const MoviesPage = () => {
     if (queryUrl === '') {
       return;
     }
-    fetchSearchingShow('movie', queryUrl).then(({ results }) => {
-      setQuery(results);
-    });
+    fetchSearchingShow(location.pathname.slice(1, 6), queryUrl).then(
+      ({ results }) => {
+        setQuery(results);
+      },
+    );
     return () => setQuery(null);
-  }, [queryUrl]);
+  }, [location.pathname, queryUrl]);
 
   const onFormSubmit = query => {
-    fetchSearchingShow('movie', query).then(({ results }) => setQuery(results));
+    fetchSearchingShow(
+      location.pathname.slice(1, 6),
+      query,
+    ).then(({ results }) => setQuery(results));
   };
 
   return (

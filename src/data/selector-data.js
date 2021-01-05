@@ -1,3 +1,3 @@
-const options = ['all', 'movie', 'tv'];
+const options = ['all', 'movies', 'tv'];
 
 export { options };

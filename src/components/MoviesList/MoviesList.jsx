@@ -1,15 +1,12 @@
 import { Link } from 'react-router-dom';
 import s from './MoviesList.module.css';
+import { imageURL } from '../../data/url-data';
+import { dateConversion } from '../../services/date-conversion';
 import defaultFoto from '../../images/error.jpg';
 
 const MoviesList = ({ movies }) => {
-  const imageURL = 'https://image.tmdb.org/t/p/w400';
-
-  const dateConversion = name => {
-    if (!name) {
-      return;
-    }
-    return ` (${name.slice(0, 4)})`;
+  const getPathName = value => {
+    return value ? 'movies' : 'tv';
   };
 
   return (
@@ -24,7 +21,10 @@ const MoviesList = ({ movies }) => {
           first_air_date,
         }) => (
           <li className={s.item} key={id}>
-            <Link className={s.link} to={`/movies/${id}`}>
+            <Link
+              className={s.link}
+              to={`/${getPathName(original_title)}/${id}`}
+            >
               <div className={s.containerImage}>
                 <img
                   className={s.image}

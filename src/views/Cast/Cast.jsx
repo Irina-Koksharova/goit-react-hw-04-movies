@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import s from './Cast.module.css';
 import { fetchCast } from '../../services/api-movies';
 import { scrollElement } from '../../services/scroll';
@@ -7,26 +8,32 @@ import defaultFoto from '../../images/error.jpg';
 
 const Cast = ({ title, movie }) => {
   const [cast, setCast] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     if (!movie) {
       return;
     }
-    const { id, original_name } = movie;
-    fetchCast(id).then(({ cast }) => {
+    const { id, title } = movie;
+    const getPath = value => {
+      return value
+        ? location.pathname.slice(1, 6)
+        : location.pathname.slice(1, 3);
+    };
+
+    fetchCast(getPath(title), id).then(({ cast }) => {
       setCast(cast);
-      scrollElement(original_name);
+      scrollElement(id);
     });
-  }, [movie]);
+  }, [location.pathname, movie]);
 
   return (
     <>
       {cast && (
         <div className={s.section}>
-          <h2
-            className={s.title}
-            id={movie.original_name}
-          >{`${title} of "${movie.original_name}"`}</h2>
+          <h2 className={s.title} id={movie.id}>{`${title} of "${
+            movie.title ?? movie.original_name
+          }"`}</h2>
           <ul className={s.container}>
             {cast.map(({ id, profile_path, original_name, character }) => (
               <li className={s.item} key={id}>
