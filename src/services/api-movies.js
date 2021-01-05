@@ -20,4 +20,15 @@ const fetchCast = (kind, id) => {
   return fetch(castSelectedMovieURL).then(response => response.json());
 };
 
-export { fetchTrendingShow, fetchSelectedShow, fetchSearchingShow, fetchCast };
+const fetchReviews = (kind, id) => {
+  const reviewsSelectedMovieURL = `https://api.themoviedb.org/3/${kind}/${id}/reviews?api_key=${KEY}&language=en-US&page=1`;
+  return fetch(reviewsSelectedMovieURL).then(response => response.json());
+};
+
+export {
+  fetchTrendingShow,
+  fetchSelectedShow,
+  fetchSearchingShow,
+  fetchCast,
+  fetchReviews,
+};

@@ -7,6 +7,7 @@ import { dateConversion } from '../../services/date-conversion';
 import { imageURL } from '../../data/url-data';
 import { links } from '../../data/editional-info-data';
 import Cast from '../Cast';
+import Reviews from '../Reviews';
 import defaultFoto from '../../images/error.jpg';
 
 const MovieDetailsPage = () => {
@@ -67,7 +68,7 @@ const MovieDetailsPage = () => {
         <Cast title={links[0]} movie={selectedMovie} />
       </Route>
       <Route path={`${path}/${links[1]}`}>
-        <Cast title={links[1]} movie={selectedMovie} />
+        <Reviews title={links[1]} movie={selectedMovie} />
       </Route>
     </>
   );
