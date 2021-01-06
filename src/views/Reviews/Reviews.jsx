@@ -6,11 +6,12 @@ import { scrollElement } from '../../services/scroll';
 
 const Reviews = ({ title, movie }) => {
   const [reviews, setReviews] = useState(null);
-  const [buttonName, setButtonName] = useState('Show more');
+  const [reviewsLength, setReviewsLength] = useState(null);
+  const [buttonName, setButtonName] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
-    if (!movie) {
+    if (!movie || reviewsLength) {
       return;
     }
     const { id, title } = movie;
@@ -21,10 +22,21 @@ const Reviews = ({ title, movie }) => {
     };
 
     fetchReviews(getPath(title), id).then(({ results }) => {
+      const content = results
+        .map(({ author, content }) => author + content)
+        .join('').length;
+      setReviewsLength(content);
       setReviews(results);
       scrollElement(id);
     });
-  }, [location.pathname, movie]);
+  }, [location.pathname, movie, reviewsLength]);
+
+  useEffect(() => {
+    if (!reviewsLength) {
+      return;
+    }
+    reviewsLength < 1200 ? setButtonName('Hide') : setButtonName('Show more');
+  }, [reviewsLength]);
 
   const onButtonClick = e => {
     switch (buttonName) {
