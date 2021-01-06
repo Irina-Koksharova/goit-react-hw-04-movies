@@ -6,6 +6,7 @@ import { scrollElement } from '../../services/scroll';
 
 const Reviews = ({ title, movie }) => {
   const [reviews, setReviews] = useState(null);
+  const [buttonName, setButtonName] = useState('Show more');
   const location = useLocation();
 
   useEffect(() => {
@@ -25,6 +26,23 @@ const Reviews = ({ title, movie }) => {
     });
   }, [location.pathname, movie]);
 
+  const onButtonClick = e => {
+    switch (buttonName) {
+      case 'Show more':
+        e.target.previousSibling.style.display = 'inline-block';
+        setButtonName('Hide');
+        scrollElement(movie.id);
+        break;
+      case 'Hide':
+        e.target.previousSibling.style.display = '-webkit-box';
+        setButtonName('Show more');
+        scrollElement(movie.id);
+        break;
+      default:
+        return;
+    }
+  };
+
   return (
     <>
       {reviews && (
@@ -36,10 +54,15 @@ const Reviews = ({ title, movie }) => {
             {reviews.map(({ id, author, content }) => (
               <li className={s.item} key={id}>
                 <h3 className={s.subtitle}>Author: {author}</h3>
-                <p className={s.text}>{content}</p>
+                <p className={s.text} id={id}>
+                  {content}
+                </p>
               </li>
             ))}
           </ul>
+          <button className={s.button} type="button" onClick={onButtonClick}>
+            {buttonName}
+          </button>
         </div>
       )}
     </>
