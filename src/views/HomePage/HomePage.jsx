@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Pagination } from '@material-ui/lab';
 import s from './HomePage.module.css';
 import { fetchTrendingShow } from '../../services/api-movies';
 import { scrollTo } from '../../services/scroll';
+import { options } from '../../data/selector-data';
 import SortSelector from '../../components/SortSelector';
 import MoviesList from '../../components/MoviesList';
-import { options } from '../../data/selector-data';
+import PaginationElement from '../../components/PaginationElement';
 
 const HomePage = () => {
   const [trendingList, setTrendingList] = useState(null);
@@ -24,12 +24,11 @@ const HomePage = () => {
         search: `selected=${options[0]}`,
       });
     }
-    fetchTrendingShow(currentSelector.slice(0, 5), page).then(
-      ({ results, total_pages }) => {
-        setTrendingList(results);
-        setTotalPages(total_pages);
-      },
-    );
+    fetchTrendingShow(currentSelector.slice(0, 5), page).then(response => {
+      setTrendingList(response.results);
+      setTotalPages(response.total_pages);
+      console.log(response);
+    });
     scrollTo();
   }, [currentSelector, history, location, page]);
 
@@ -41,7 +40,7 @@ const HomePage = () => {
     setPage(1);
   };
 
-  const handlePageChange = (e, value) => {
+  const onHandlePageChange = value => {
     setPage(value);
   };
 
@@ -57,16 +56,10 @@ const HomePage = () => {
       />
       {trendingList && <MoviesList movies={trendingList} />}
       {totalPages && (
-        <Pagination
+        <PaginationElement
           count={totalPages}
           page={page}
-          defaultPage={1}
-          boundaryCount={1}
-          variant="outlined"
-          shape="rounded"
-          size="large"
-          classes={{ root: `${s.paginationNav}` }}
-          onChange={handlePageChange}
+          onChange={onHandlePageChange}
         />
       )}
     </>
