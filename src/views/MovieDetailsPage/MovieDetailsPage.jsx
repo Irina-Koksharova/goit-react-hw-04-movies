@@ -1,14 +1,23 @@
-import { useState, useEffect } from 'react';
-import { useParams, NavLink, useRouteMatch, Route } from 'react-router-dom';
+import { useState, useEffect, lazy, Suspense } from 'react';
+import {
+  useParams,
+  NavLink,
+  useRouteMatch,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import s from './MovieDetailsPage.module.css';
 import { fetchSelectedShow } from '../../services/api-movies';
 import { getGenresNames } from '../../services/getGenresNames';
 import { dateConversion } from '../../services/date-conversion';
 import { imageURL } from '../../data/url-data';
 import { links } from '../../data/editional-info-data';
-import Cast from '../Cast';
-import Reviews from '../Reviews';
 import defaultFoto from '../../images/error.jpg';
+
+const Cast = lazy(() => import('../Cast' /* webpackChunkName: "cast-page" */));
+const Reviews = lazy(() =>
+  import('../Reviews' /* webpackChunkName: "reviews-page" */),
+);
 
 const MovieDetailsPage = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -64,12 +73,16 @@ const MovieDetailsPage = () => {
           </div>
         </div>
       )}
-      <Route path={`${path}/${links[0]}`}>
-        <Cast title={links[0]} movie={selectedMovie} />
-      </Route>
-      <Route path={`${path}/${links[1]}`}>
-        <Reviews title={links[1]} movie={selectedMovie} />
-      </Route>
+      <Suspense fallback={<h1>ЗАГРУЖАЕМ...</h1>}>
+        <Switch>
+          <Route path={`${path}/${links[0]}`}>
+            <Cast title={links[0]} movie={selectedMovie} />
+          </Route>
+          <Route path={`${path}/${links[1]}`}>
+            <Reviews title={links[1]} movie={selectedMovie} />
+          </Route>
+        </Switch>
+      </Suspense>
     </>
   );
 };

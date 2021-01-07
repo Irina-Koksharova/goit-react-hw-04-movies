@@ -6,4 +6,11 @@ const scrollElement = id => {
   });
 };
 
-export { scrollElement };
+const scrollTo = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+};
+
+export { scrollElement, scrollTo };
