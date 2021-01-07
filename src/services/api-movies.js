@@ -10,8 +10,8 @@ const fetchSelectedShow = (kind, id) => {
   return fetch(SelectedMovieURL).then(response => response.json());
 };
 
-const fetchSearchingShow = (kind, searchQuery) => {
-  const searchingShowURL = `https://api.themoviedb.org/3/search/${kind}?api_key=${KEY}&language=en-US&query=${searchQuery}&page=1&include_adult=false`;
+const fetchSearchingShow = (kind, searchQuery, page) => {
+  const searchingShowURL = `https://api.themoviedb.org/3/search/${kind}?api_key=${KEY}&language=en-US&query=${searchQuery}&page=${page}&include_adult=false`;
   return fetch(searchingShowURL).then(response => response.json());
 };
 

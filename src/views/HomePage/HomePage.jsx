@@ -24,12 +24,17 @@ const HomePage = () => {
         search: `selected=${options[0]}`,
       });
     }
-    fetchTrendingShow(currentSelector.slice(0, 5), page).then(response => {
-      setTrendingList(response.results);
-      setTotalPages(response.total_pages);
-      console.log(response);
-    });
+    fetchTrendingShow(currentSelector.slice(0, 5), page).then(
+      ({ results, total_pages }) => {
+        setTrendingList(results);
+        setTotalPages(total_pages);
+      },
+    );
     scrollTo();
+    return () => {
+      setTrendingList(null);
+      setTotalPages(null);
+    };
   }, [currentSelector, history, location, page]);
 
   const onChangeSelector = e => {
@@ -38,10 +43,6 @@ const HomePage = () => {
       search: `selected=${e.target.value}`,
     });
     setPage(1);
-  };
-
-  const onHandlePageChange = value => {
-    setPage(value);
   };
 
   return (
@@ -59,7 +60,7 @@ const HomePage = () => {
         <PaginationElement
           count={totalPages}
           page={page}
-          onChange={onHandlePageChange}
+          onChange={value => setPage(value)}
         />
       )}
     </>
