@@ -5,6 +5,8 @@ import {
   useRouteMatch,
   Route,
   Switch,
+  useHistory,
+  useLocation,
 } from 'react-router-dom';
 import s from './MovieDetailsPage.module.css';
 import { fetchSelectedShow } from '../../services/api-movies';
@@ -23,55 +25,71 @@ const MovieDetailsPage = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const { movieId } = useParams();
   const { url, path } = useRouteMatch();
+  const history = useHistory();
+  const location = useLocation();
+  const [locationFrom, setLocationFrom] = useState(() =>
+    location?.state?.from?.location
+      ? location?.state?.from?.location
+      : url.slice(0, 7),
+  );
 
   useEffect(() => {
     fetchSelectedShow('movie', movieId).then(setSelectedMovie);
   }, [movieId]);
 
+  const onGoBack = () => {
+    history.push(locationFrom ?? url.slice(0, 7));
+  };
+
   return (
     <>
       {selectedMovie && (
-        <div className={s.container}>
-          <div className={s.containerImage}>
-            <img
-              className={s.image}
-              src={
-                selectedMovie.poster_path
-                  ? imageURL + selectedMovie.poster_path
-                  : defaultFoto
-              }
-              alt={selectedMovie.title}
-            />
+        <>
+          <button type="button" onClick={onGoBack}>
+            {`Go back to ${url.slice(1, 7)} list`}
+          </button>
+          <div className={s.container}>
+            <div className={s.containerImage}>
+              <img
+                className={s.image}
+                src={
+                  selectedMovie.poster_path
+                    ? imageURL + selectedMovie.poster_path
+                    : defaultFoto
+                }
+                alt={selectedMovie.title}
+              />
+            </div>
+            <div>
+              <h2 className={s.title}>
+                {selectedMovie.title +
+                  `${dateConversion(selectedMovie.release_date)}`}
+              </h2>
+              <h3 className={s.subtitle}>{`User score: ${
+                selectedMovie.vote_average * 10
+              }%`}</h3>
+              <h3 className={s.subtitle}>Overview</h3>
+              <p className={s.text}>{selectedMovie.overview}</p>
+              <h3 className={s.subtitle}>Genres</h3>
+              <p className={s.text}>{getGenresNames(selectedMovie.genres)}</p>
+              <h3 className={s.subtitle}>Editional information</h3>
+              <ul className={s.list}>
+                {links.map(link => (
+                  <li className={s.item} key={link}>
+                    <NavLink
+                      className={s.link}
+                      activeClassName={s.activeLink}
+                      to={`${url}/${link}`}
+                      exact
+                    >
+                      {link}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div>
-            <h2 className={s.title}>
-              {selectedMovie.title +
-                `${dateConversion(selectedMovie.release_date)}`}
-            </h2>
-            <h3 className={s.subtitle}>{`User score: ${
-              selectedMovie.vote_average * 10
-            }%`}</h3>
-            <h3 className={s.subtitle}>Overview</h3>
-            <p className={s.text}>{selectedMovie.overview}</p>
-            <h3 className={s.subtitle}>Genres</h3>
-            <p className={s.text}>{getGenresNames(selectedMovie.genres)}</p>
-            <h3 className={s.subtitle}>Editional information</h3>
-            <ul className={s.list}>
-              {links.map(link => (
-                <li className={s.item} key={link}>
-                  <NavLink
-                    className={s.link}
-                    activeClassName={s.activeLink}
-                    to={`${url}/${link}`}
-                    exact
-                  >
-                    {link}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        </>
       )}
       <Suspense fallback={<h1>ЗАГРУЖАЕМ...</h1>}>
         <Switch>

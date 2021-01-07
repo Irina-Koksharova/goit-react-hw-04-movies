@@ -4,6 +4,9 @@ import s from './PaginationElement.module.css';
 
 const useStyles = makeStyles(theme => ({
   item: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     minWidth: 50,
     height: 50,
     margin: 5,
@@ -33,6 +36,8 @@ const PaginationElement = ({ count, page, onChange }) => {
       boundaryCount={1}
       onChange={onHandlePageChange}
       shape="rounded"
+      showFirstButton
+      showLastButton
       classes={{ root: `${s.paginationNav}` }}
       renderItem={item => (
         <PaginationItem

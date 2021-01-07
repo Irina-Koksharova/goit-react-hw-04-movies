@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import s from './MoviesList.module.css';
 import { imageURL } from '../../data/url-data';
 import { dateConversion } from '../../services/date-conversion';
 import defaultFoto from '../../images/error.jpg';
 
 const MoviesList = ({ movies }) => {
+  const location = useLocation();
+
   const getPathName = value => {
     return value ? 'movies' : 'tv';
   };
@@ -23,7 +25,14 @@ const MoviesList = ({ movies }) => {
           <li className={s.item} key={id}>
             <Link
               className={s.link}
-              to={`/${getPathName(original_title)}/${id}`}
+              to={{
+                pathname: `/${getPathName(original_title)}/${id}`,
+                state: {
+                  from: {
+                    location,
+                  },
+                },
+              }}
             >
               <div className={s.containerImage}>
                 <img
