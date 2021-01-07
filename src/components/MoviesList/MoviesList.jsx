@@ -1,8 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import s from './MoviesList.module.css';
-import { imageURL } from '../../data/url-data';
-import { dateConversion } from '../../services/date-conversion';
-import defaultFoto from '../../images/error.jpg';
+import MoviesItem from '../MoviesItem';
 
 const MoviesList = ({ movies }) => {
   const location = useLocation();
@@ -34,20 +32,13 @@ const MoviesList = ({ movies }) => {
                 },
               }}
             >
-              <div className={s.containerImage}>
-                <img
-                  className={s.image}
-                  src={poster_path ? imageURL + poster_path : defaultFoto}
-                  alt={original_title ?? original_name}
-                />
-              </div>
-              <div className={s.containerTitle}>
-                <p className={s.title}>
-                  {original_title
-                    ? original_title + dateConversion(release_date)
-                    : original_name + dateConversion(first_air_date)}
-                </p>
-              </div>
+              <MoviesItem
+                image={poster_path}
+                movieTitle={original_title}
+                tvTitle={original_name}
+                movieReleaseDate={release_date}
+                tvReleaseDate={first_air_date}
+              />
             </Link>
           </li>
         ),

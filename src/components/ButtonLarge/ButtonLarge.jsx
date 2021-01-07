@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import s from './Button.module.css';
+import s from './ButtonLarge.module.css';
 
 const Button = ({ children }) => {
   return (

@@ -14,6 +14,7 @@ import { getGenresNames } from '../../services/getGenresNames';
 import { dateConversion } from '../../services/date-conversion';
 import { imageURL } from '../../data/url-data';
 import { links } from '../../data/editional-info-data';
+import ButtonSmall from '../../components/ButtonSmall';
 import defaultFoto from '../../images/error.jpg';
 
 const Cast = lazy(() => import('../Cast' /* webpackChunkName: "cast-page" */));
@@ -27,10 +28,8 @@ const MovieDetailsPage = () => {
   const { url, path } = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
-  const [locationFrom, setLocationFrom] = useState(() =>
-    location?.state?.from?.location
-      ? location?.state?.from?.location
-      : url.slice(0, 7),
+  const [locationFrom, setLocationFrom] = useState(
+    () => location?.state?.from?.location ?? url.slice(0, 7),
   );
 
   useEffect(() => {
@@ -38,16 +37,17 @@ const MovieDetailsPage = () => {
   }, [movieId]);
 
   const onGoBack = () => {
-    history.push(locationFrom ?? url.slice(0, 7));
+    history.push(locationFrom);
   };
 
   return (
     <>
       {selectedMovie && (
         <>
-          <button type="button" onClick={onGoBack}>
-            {`Go back to ${url.slice(1, 7)} list`}
-          </button>
+          <ButtonSmall
+            name={`<< back to ${url.slice(1, 7)}`}
+            onClick={onGoBack}
+          />
           <div className={s.container}>
             <div className={s.containerImage}>
               <img

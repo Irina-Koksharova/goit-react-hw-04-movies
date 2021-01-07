@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 import s from './SearchBar.module.css';
-import Button from '../Button';
+import Button from '../ButtonLarge';
 
 const SearchBar = ({ onSubmit }) => {
   const [searchQuery, setSearchQuery] = useState('');
