@@ -3,18 +3,16 @@
   text-align: center;
 }
 
-.title {
-  margin: 0px 0px 20px;
-  font-size: 24px;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
 .container {
   text-align: start;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 10;
+  -webkit-line-clamp: 23;
   -webkit-box-orient: vertical;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
 }

@@ -16,7 +16,6 @@ const HomePage = () => {
   const location = useLocation();
   const currentSelector =
     new URLSearchParams(location.search).get('selected') ?? options[0];
-
   const currentPage = new URLSearchParams(location.search).get('page') ?? page;
 
   useEffect(() => {
@@ -27,7 +26,7 @@ const HomePage = () => {
       });
     }
     setPage(Number(currentPage));
-    fetchTrendingShow(currentSelector.slice(0, 5), currentPage).then(
+    fetchTrendingShow(currentSelector.slice(0, 5), page).then(
       ({ results, total_pages }) => {
         setTrendingList(results);
         setTotalPages(total_pages);
@@ -44,7 +43,7 @@ const HomePage = () => {
     setPage(1);
     history.push({
       ...location,
-      search: `selected=${e.target.value}&page=${1}`,
+      search: `selected=${e.target.value}&page=1`,
     });
   };
 

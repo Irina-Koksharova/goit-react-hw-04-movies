@@ -73,23 +73,27 @@ const Reviews = ({ title, movie }) => {
     <>
       {reviews && (
         <div className={s.section}>
-          <ButtonGoBack
-            name={`<< back to ${getButtonName()}`}
-            onClick={onButtonGoBackClick}
-          />
+          <div className={s.buttonContainer} id={movie.id}>
+            <ButtonGoBack
+              name={`<< back to ${getButtonName()}`}
+              onClick={onButtonGoBackClick}
+            />
+          </div>
           <TitleEditionalInfo title={title} movie={movie} />
           <ul className={s.container}>
             {reviews.map(({ id, author, content }) => (
-              <li className={s.item} key={id}>
-                <ReviewsCard id={id} author={author} content={content} />
+              <li key={id}>
+                <ReviewsCard author={author} content={content} />
               </li>
             ))}
           </ul>
           <ButtonSmall name={buttonName} onClick={onButtonClick} />
-          <ButtonGoBack
-            name={`<< back to ${getButtonName()}`}
-            onClick={onButtonGoBackClick}
-          />
+          <div className={s.buttonContainer}>
+            <ButtonGoBack
+              name={`<< back to ${getButtonName()}`}
+              onClick={onButtonGoBackClick}
+            />
+          </div>
         </div>
       )}
     </>
