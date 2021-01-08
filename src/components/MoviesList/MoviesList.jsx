@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import s from './MoviesList.module.css';
-import MoviesItem from '../MoviesItem';
+import MoviesListItem from '../MoviesListItem';
 
 const MoviesList = ({ movies }) => {
   const location = useLocation();
@@ -32,7 +32,7 @@ const MoviesList = ({ movies }) => {
                 },
               }}
             >
-              <MoviesItem
+              <MoviesListItem
                 image={poster_path}
                 movieTitle={original_title}
                 tvTitle={original_name}

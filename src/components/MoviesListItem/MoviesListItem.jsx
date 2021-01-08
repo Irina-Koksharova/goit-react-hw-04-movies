@@ -1,4 +1,4 @@
-import s from './MoviesItem.module.css';
+import s from './MoviesListItem.module.css';
 import { imageURL } from '../../data/url-data';
 import { dateConversion } from '../../services/date-conversion';
 import defaultFoto from '../../images/error.jpg';
