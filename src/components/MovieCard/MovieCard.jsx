@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import s from './MovieCard.module.css';
 import { imageURL } from '../../data/url-data';
 import defaultFoto from '../../images/error.jpg';
@@ -7,6 +7,7 @@ import { getGenresNames } from '../../services/getGenresNames';
 import { links } from '../../data/editional-info-data';
 
 const MovieCard = ({ movie, url }) => {
+  const location = useLocation();
   const {
     poster_path,
     title,
@@ -45,7 +46,14 @@ const MovieCard = ({ movie, url }) => {
               <NavLink
                 className={s.link}
                 activeClassName={s.activeLink}
-                to={`${url}/${link}`}
+                to={{
+                  pathname: `${url}/${link}`,
+                  state: {
+                    from: {
+                      location,
+                    },
+                  },
+                }}
                 exact
               >
                 {link}

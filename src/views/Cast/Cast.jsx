@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom';
 import s from './Cast.module.css';
 import { fetchCast } from '../../services/api-movies';
 import { scrollElement } from '../../services/scroll';
-import { imageURL } from '../../data/url-data';
-import defaultFoto from '../../images/error.jpg';
+import TitleEditionalInfo from '../../components/TitleEditionalInfo';
+import ActorCard from '../../components/ActorCard';
 
 const Cast = ({ title, movie }) => {
   const [cast, setCast] = useState(null);
@@ -31,21 +31,15 @@ const Cast = ({ title, movie }) => {
     <>
       {cast && (
         <div className={s.section}>
-          <h2 className={s.title} id={movie.id}>{`${title} of "${
-            movie.title ?? movie.original_name
-          }"`}</h2>
+          <TitleEditionalInfo title={title} movie={movie} />
           <ul className={s.container}>
             {cast.map(({ id, profile_path, original_name, character }) => (
               <li className={s.item} key={id}>
-                <div className={s.imageContainer}>
-                  <img
-                    className={s.image}
-                    src={profile_path ? imageURL + profile_path : defaultFoto}
-                    alt={original_name}
-                  />
-                </div>
-                <p className={s.name}>{original_name}</p>
-                <p className={s.text}>{`Character: ${character}`}</p>
+                <ActorCard
+                  image={profile_path}
+                  name={original_name}
+                  character={character}
+                />
               </li>
             ))}
           </ul>

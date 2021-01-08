@@ -1,14 +1,20 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import s from './Reviews.module.css';
 import { fetchReviews } from '../../services/api-movies';
 import { scrollElement } from '../../services/scroll';
+import TitleEditionalInfo from '../../components/TitleEditionalInfo';
+import ReviewsCard from '../../components/ReviewsCard';
+import ButtonSmall from '../../components/ButtonSmall';
+import ButtonGoBack from '../../components/ButtonGoBack';
 
 const Reviews = ({ title, movie }) => {
   const [reviews, setReviews] = useState(null);
   const [reviewsLength, setReviewsLength] = useState(null);
   const [buttonName, setButtonName] = useState(null);
+  const history = useHistory();
   const location = useLocation();
+  const { url } = useRouteMatch();
 
   useEffect(() => {
     if (!movie || reviewsLength) {
@@ -55,26 +61,35 @@ const Reviews = ({ title, movie }) => {
     }
   };
 
+  const onButtonGoBackClick = () => {
+    history.push(location?.state?.from?.location ?? '/');
+  };
+
+  const getButtonName = () => {
+    return movie.title ? url.slice(1, 6) : url.slice(1, 3);
+  };
+
   return (
     <>
       {reviews && (
         <div className={s.section}>
-          <h2 className={s.title} id={movie.id}>{`${title} of "${
-            movie.title ?? movie.original_name
-          }"`}</h2>
+          <ButtonGoBack
+            name={`<< back to ${getButtonName()}`}
+            onClick={onButtonGoBackClick}
+          />
+          <TitleEditionalInfo title={title} movie={movie} />
           <ul className={s.container}>
             {reviews.map(({ id, author, content }) => (
               <li className={s.item} key={id}>
-                <h3 className={s.subtitle}>Author: {author}</h3>
-                <p className={s.text} id={id}>
-                  {content}
-                </p>
+                <ReviewsCard id={id} author={author} content={content} />
               </li>
             ))}
           </ul>
-          <button className={s.button} type="button" onClick={onButtonClick}>
-            {buttonName}
-          </button>
+          <ButtonSmall name={buttonName} onClick={onButtonClick} />
+          <ButtonGoBack
+            name={`<< back to ${getButtonName()}`}
+            onClick={onButtonGoBackClick}
+          />
         </div>
       )}
     </>

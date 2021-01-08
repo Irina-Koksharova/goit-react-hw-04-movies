@@ -17,14 +17,17 @@ const HomePage = () => {
   const currentSelector =
     new URLSearchParams(location.search).get('selected') ?? options[0];
 
+  const currentPage = new URLSearchParams(location.search).get('page') ?? page;
+
   useEffect(() => {
     if (location.search === '') {
       history.push({
         ...location,
-        search: `selected=${options[0]}`,
+        search: `selected=${options[0]}&page=${page}`,
       });
     }
-    fetchTrendingShow(currentSelector.slice(0, 5), page).then(
+    setPage(Number(currentPage));
+    fetchTrendingShow(currentSelector.slice(0, 5), currentPage).then(
       ({ results, total_pages }) => {
         setTrendingList(results);
         setTotalPages(total_pages);
@@ -35,14 +38,24 @@ const HomePage = () => {
       setTrendingList(null);
       setTotalPages(null);
     };
-  }, [currentSelector, history, location, page]);
+  }, [currentPage, currentSelector, history, location, page]);
 
   const onChangeSelector = e => {
+    setPage(1);
     history.push({
       ...location,
-      search: `selected=${e.target.value}`,
+      search: `selected=${e.target.value}&page=${1}`,
     });
-    setPage(1);
+  };
+
+  const onChangePage = value => {
+    setPage(value);
+    history.push({
+      ...location,
+      search: `selected=${new URLSearchParams(location.search).get(
+        'selected',
+      )}&page=${value}`,
+    });
   };
 
   return (
@@ -60,7 +73,7 @@ const HomePage = () => {
         <PaginationElement
           count={totalPages}
           page={page}
-          onChange={value => setPage(value)}
+          onChange={onChangePage}
         />
       )}
     </>
