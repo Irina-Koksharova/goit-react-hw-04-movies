@@ -3,6 +3,7 @@ import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import s from './Reviews.module.css';
 import { fetchReviews } from '../../services/api-movies';
 import { scrollElement } from '../../services/scroll';
+import Section from '../../components/Section';
 import TitleEditionalInfo from '../../components/TitleEditionalInfo';
 import ReviewsCard from '../../components/ReviewsCard';
 import ButtonSmall from '../../components/ButtonSmall';
@@ -72,7 +73,7 @@ const Reviews = ({ title, movie }) => {
   return (
     <>
       {reviews && (
-        <div className={s.section}>
+        <Section style={{ padding: '25px 0px 0px', textAlign: 'center' }}>
           <div className={s.buttonContainer} id={movie.id}>
             <ButtonGoBack
               name={`<< back to ${getButtonName()}`}
@@ -94,7 +95,7 @@ const Reviews = ({ title, movie }) => {
               onClick={onButtonGoBackClick}
             />
           </div>
-        </div>
+        </Section>
       )}
     </>
   );

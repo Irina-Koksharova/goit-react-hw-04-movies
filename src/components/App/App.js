@@ -26,7 +26,7 @@ const App = () => {
     <Container>
       <Navigation />
 
-      <Section>
+      <Section style={{ padding: '25px 0px 0px' }}>
         <Suspense fallback={<h1>ЗАГРУЖАЕМ...</h1>}>
           <Switch>
             <Route path="/" exact>

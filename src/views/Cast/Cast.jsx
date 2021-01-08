@@ -3,6 +3,7 @@ import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import s from './Cast.module.css';
 import { fetchCast } from '../../services/api-movies';
 import { scrollElement } from '../../services/scroll';
+import Section from '../../components/Section';
 import TitleEditionalInfo from '../../components/TitleEditionalInfo';
 import ActorCard from '../../components/ActorCard';
 import ButtonSmall from '../../components/ButtonSmall';
@@ -33,6 +34,7 @@ const Cast = ({ title, movie }) => {
   }, [location.pathname, movie]);
 
   const onButtonClick = e => {
+    console.log(cast.length);
     switch (buttonName) {
       case 'Show more':
         e.target.previousSibling.style.overflow = 'visible';
@@ -62,7 +64,7 @@ const Cast = ({ title, movie }) => {
   return (
     <>
       {cast && (
-        <div className={s.section}>
+        <Section style={{ padding: '25px 0px 0px', textAlign: 'center' }}>
           <div className={s.buttonContainer} id={movie.id}>
             <ButtonGoBack
               name={`<< back to ${getButtonName()}`}
@@ -81,14 +83,16 @@ const Cast = ({ title, movie }) => {
               </li>
             ))}
           </ul>
-          <ButtonSmall name={buttonName} onClick={onButtonClick} />
+          {cast.length >= 10 && (
+            <ButtonSmall name={buttonName} onClick={onButtonClick} />
+          )}
           <div className={s.buttonContainer}>
             <ButtonGoBack
               name={`<< back to ${getButtonName()}`}
               onClick={onButtonGoBackClick}
             />
           </div>
-        </div>
+        </Section>
       )}
     </>
   );

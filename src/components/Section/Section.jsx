@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
-import s from './Section.module.css';
 
-function Section({ children }) {
-  return <section className={s.section}>{children}</section>;
+function Section({ children, style }) {
+  return <section style={style}>{children}</section>;
 }
 
 Section.propTypes = {
