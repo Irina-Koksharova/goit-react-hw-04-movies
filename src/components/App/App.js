@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import Container from '../Container';
 import Navigation from '../Navigation';
 import Section from '../Section';
+import Spinner from '../Loader';
 
 const HomePage = lazy(() =>
   import('../../views/HomePage' /* webpackChunkName: "home-page" */),
@@ -27,7 +28,7 @@ const App = () => {
       <Navigation />
 
       <Section style={{ padding: '25px 0px 0px' }}>
-        <Suspense fallback={<h1>ЗАГРУЖАЕМ...</h1>}>
+        <Suspense fallback={<Spinner />}>
           <Switch>
             <Route path="/" exact>
               <HomePage />
