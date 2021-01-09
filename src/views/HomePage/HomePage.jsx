@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import s from './HomePage.module.css';
 import { fetchTrendingShow } from '../../services/api-movies';
 import { scrollTo } from '../../services/scroll';
 import { options } from '../../data/selector-data';
+import TitleMain from '../../components/TitleMain';
 import SortSelector from '../../components/SortSelector';
 import MoviesList from '../../components/MoviesList';
 import PaginationElement from '../../components/PaginationElement';
 import Spinner from '../../components/Loader';
+import Notification from '../../components/Notification';
+import { serverError } from '../../data/notification-message';
 
 const HomePage = () => {
   const [page, setPage] = useState(1);
@@ -28,7 +30,7 @@ const HomePage = () => {
     }
   }, [currentPage, history, location, page]);
 
-  const { isLoading, isError, isSuccess, error, data } = useQuery(
+  const { isLoading, isError, isSuccess, data } = useQuery(
     ['movies', currentSelector, page],
     () => fetchTrendingShow(currentSelector.slice(0, 5), page),
     { keepPreviousData: true },
@@ -53,23 +55,22 @@ const HomePage = () => {
   };
 
   if (isLoading) return <Spinner />;
-  if (isError) return <h1>{error}</h1>;
+  if (isError) return <Notification message={serverError} />;
   if (isSuccess) {
+    const { results, total_pages } = data;
     scrollTo();
     return (
       <>
-        <h2 className={s.title} id="title">
-          Trending today
-        </h2>
+        <TitleMain title={'Trending today'} />
         <SortSelector
           options={options}
           value={currentSelector}
           onChange={onChangeSelector}
         />
-        {data.results && <MoviesList movies={data.results} />}
-        {data.total_pages && (
+        {results && <MoviesList movies={results} />}
+        {total_pages && (
           <PaginationElement
-            count={data.total_pages}
+            count={total_pages}
             page={page}
             onChange={onChangePage}
           />
