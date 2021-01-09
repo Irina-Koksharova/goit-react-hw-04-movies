@@ -1,5 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClientProvider, QueryClient } from 'react-query';
 import Container from '../Container';
 import Navigation from '../Navigation';
 import Section from '../Section';
@@ -22,37 +24,42 @@ const TVDetailsPage = lazy(() =>
   ),
 );
 
+const queryClient = new QueryClient();
+
 const App = () => {
   return (
-    <Container>
-      <Navigation />
+    <QueryClientProvider client={queryClient}>
+      <Container>
+        <Navigation />
 
-      <Section style={{ padding: '25px 0px 0px' }}>
-        <Suspense fallback={<Spinner />}>
-          <Switch>
-            <Route path="/" exact>
-              <HomePage />
-            </Route>
+        <Section style={{ padding: '25px 0px 0px' }}>
+          <Suspense fallback={<Spinner />}>
+            <Switch>
+              <Route path="/" exact>
+                <HomePage />
+              </Route>
 
-            <Route path="/movies" exact>
-              <MoviesPage />
-            </Route>
+              <Route path="/movies" exact>
+                <MoviesPage />
+              </Route>
 
-            <Route path="/movies/:movieId">
-              <MovieDetailsPage />
-            </Route>
+              <Route path="/movies/:movieId">
+                <MovieDetailsPage />
+              </Route>
 
-            <Route path="/tv" exact>
-              <MoviesPage />
-            </Route>
+              <Route path="/tv" exact>
+                <MoviesPage />
+              </Route>
 
-            <Route path="/tv/:tvId">
-              <TVDetailsPage />
-            </Route>
-          </Switch>
-        </Suspense>
-      </Section>
-    </Container>
+              <Route path="/tv/:tvId">
+                <TVDetailsPage />
+              </Route>
+            </Switch>
+          </Suspense>
+        </Section>
+      </Container>
+      <ReactQueryDevtools initialIsOpen={true} />
+    </QueryClientProvider>
   );
 };
 

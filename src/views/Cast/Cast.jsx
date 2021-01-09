@@ -34,7 +34,6 @@ const Cast = ({ title, movie }) => {
   }, [location.pathname, movie]);
 
   const onButtonClick = e => {
-    console.log(cast.length);
     switch (buttonName) {
       case 'Show more':
         e.target.previousSibling.style.overflow = 'visible';
@@ -65,12 +64,6 @@ const Cast = ({ title, movie }) => {
     <>
       {cast && (
         <Section style={{ padding: '25px 0px 0px', textAlign: 'center' }}>
-          <div className={s.buttonContainer} id={movie.id}>
-            <ButtonGoBack
-              name={`<< back to ${getButtonName()}`}
-              onClick={onButtonGoBackClick}
-            />
-          </div>
           <TitleEditionalInfo title={title} movie={movie} />
           <ul className={s.container}>
             {cast.map(({ id, profile_path, original_name, character }) => (
@@ -83,7 +76,7 @@ const Cast = ({ title, movie }) => {
               </li>
             ))}
           </ul>
-          {cast.length >= 10 && (
+          {cast.length > 10 && (
             <ButtonSmall name={buttonName} onClick={onButtonClick} />
           )}
           <div className={s.buttonContainer}>

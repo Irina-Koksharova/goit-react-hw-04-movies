@@ -1,6 +1,6 @@
 .button {
   display: inline-block;
-  margin-top: 15px;
+  margin-top: 30px;
   min-width: 100px;
   padding: 8px;
   color: white;
@@ -11,4 +11,5 @@
   border: none;
   outline: none;
   border-radius: 8px;
+  cursor: pointer;
 }
