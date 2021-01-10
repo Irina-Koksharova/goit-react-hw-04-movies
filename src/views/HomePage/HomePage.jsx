@@ -33,7 +33,6 @@ const HomePage = () => {
   const { isLoading, isError, isSuccess, data } = useQuery(
     ['movies', currentSelector, page],
     () => fetchTrendingShow(currentSelector.slice(0, 5), page),
-    { keepPreviousData: true },
   );
 
   const onChangeSelector = e => {

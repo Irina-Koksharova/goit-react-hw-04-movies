@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import {
   useParams,
   useRouteMatch,
@@ -7,10 +7,14 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import { fetchSelectedShow } from '../../services/api-movies';
 import { links } from '../../data/editional-info-data';
+import { serverError } from '../../services/notification/notification';
 import ButtonGoBack from '../../components/ButtonGoBack';
 import MovieCard from '../../components/MovieCard';
+import Spinner from '../../components/Loader';
+import Notification from '../../components/Notification';
 
 const Cast = lazy(() => import('../Cast' /* webpackChunkName: "cast-page" */));
 const Reviews = lazy(() =>
@@ -18,7 +22,6 @@ const Reviews = lazy(() =>
 );
 
 const MovieDetailsPage = () => {
-  const [selectedMovie, setSelectedMovie] = useState(null);
   const { movieId } = useParams();
   const { url, path } = useRouteMatch();
   const history = useHistory();
@@ -27,28 +30,31 @@ const MovieDetailsPage = () => {
     () => location?.state?.from?.location ?? '/',
   );
 
-  useEffect(() => {
-    fetchSelectedShow('movie', movieId).then(setSelectedMovie);
-  }, [movieId]);
+  const { isLoading, isError, isSuccess, data } = useQuery(
+    ['selectedMovie', movieId],
+    () => fetchSelectedShow('movie', movieId),
+  );
 
   return (
     <>
-      {selectedMovie && (
+      {isLoading && <Spinner />}
+      {isError && <Notification message={serverError} />}
+      {isSuccess && (
         <>
           <ButtonGoBack
             name={`<< back to ${url.slice(1, 7)}`}
             onClick={() => history.push(locationFrom)}
           />
-          <MovieCard movie={selectedMovie} url={url} />
+          <MovieCard movie={data} url={url} />
         </>
       )}
-      <Suspense fallback={<h1>ЗАГРУЖАЕМ...</h1>}>
+      <Suspense fallback={<Spinner />}>
         <Switch>
           <Route path={`${path}/${links[0]}`}>
-            <Cast title={links[0]} movie={selectedMovie} />
+            <Cast title={links[0]} movie={data} />
           </Route>
           <Route path={`${path}/${links[1]}`}>
-            <Reviews title={links[1]} movie={selectedMovie} />
+            <Reviews title={links[1]} movie={data} />
           </Route>
         </Switch>
       </Suspense>
