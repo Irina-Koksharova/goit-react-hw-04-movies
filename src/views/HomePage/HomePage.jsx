@@ -4,13 +4,13 @@ import { useQuery } from 'react-query';
 import { fetchTrendingShow } from '../../services/api-movies';
 import { scrollTo } from '../../services/scroll';
 import { options } from '../../data/selector-data';
+import { serverError } from '../../services/notification/notification';
 import TitleMain from '../../components/TitleMain';
 import SortSelector from '../../components/SortSelector';
 import MoviesList from '../../components/MoviesList';
 import PaginationElement from '../../components/PaginationElement';
 import Spinner from '../../components/Loader';
 import Notification from '../../components/Notification';
-import { serverError } from '../../data/notification-message';
 
 const HomePage = () => {
   const [page, setPage] = useState(1);

@@ -1,18 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import { fetchSearchingShow } from '../../services/api-movies';
 import { scrollTo } from '../../services/scroll';
+import {
+  clientErrorEmptyQuery,
+  serverError,
+  showNotification,
+} from '../../services/notification/notification';
 import SearchBar from '../../components/SearchBar';
 import MoviesList from '../../components/MoviesList';
 import PaginationElement from '../../components/PaginationElement';
+import Spinner from '../../components/Loader';
+import Notification from '../../components/Notification';
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState(null);
-  const [totalPages, setTotalPages] = useState(null);
   const [page, setPage] = useState(1);
   const history = useHistory();
   const location = useLocation();
-  const queryUrl = new URLSearchParams(location.search).get('query') ?? '';
+  const queryUrl = new URLSearchParams(location.search).get('query') ?? null;
   const currentPage = new URLSearchParams(location.search).get('page') ?? page;
 
   useEffect(() => {
@@ -20,28 +26,27 @@ const MoviesPage = () => {
       return;
     }
     setPage(Number(currentPage));
-    fetchSearchingShow(location.pathname.slice(1, 6), queryUrl, page).then(
-      ({ results, total_pages }) => {
-        setQuery(results);
-        setTotalPages(total_pages);
-      },
-    );
-    scrollTo();
-    return () => {
-      setQuery(null);
-      setTotalPages(null);
-    };
-  }, [currentPage, location.pathname, page, queryUrl]);
+  }, [currentPage, queryUrl]);
+
+  const { isLoading, isError, isSuccess, data } = useQuery(
+    ['searchMovies', location.pathname, queryUrl, currentPage],
+    () =>
+      fetchSearchingShow(location.pathname.slice(1, 6), queryUrl, currentPage),
+    { enabled: !!queryUrl },
+  );
 
   const onFormSubmit = query => {
-    fetchSearchingShow(
-      location.pathname.slice(1, 6),
-      query,
-    ).then(({ results }) => setQuery(results));
-    setPage(1);
+    if (query.trim() === '') {
+      showNotification(clientErrorEmptyQuery);
+    }
+    history.push({
+      ...location,
+      search: `query=${query.trim()}&page=1`,
+    });
   };
 
   const onChangePage = value => {
+    scrollTo();
     setPage(value);
     history.push({
       ...location,
@@ -54,13 +59,19 @@ const MoviesPage = () => {
   return (
     <>
       <SearchBar onSubmit={onFormSubmit} />
-      {query && <MoviesList movies={query} />}
-      {totalPages && (
-        <PaginationElement
-          count={totalPages}
-          page={page}
-          onChange={onChangePage}
-        />
+      {isLoading && <Spinner />}
+      {isError && <Notification message={serverError} />}
+      {isSuccess && (
+        <>
+          <MoviesList movies={data.results} />
+          {data.results.length > 0 && (
+            <PaginationElement
+              count={data.total_pages}
+              page={page}
+              onChange={onChangePage}
+            />
+          )}
+        </>
       )}
     </>
   );

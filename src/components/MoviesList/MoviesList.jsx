@@ -1,9 +1,20 @@
+import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import s from './MoviesList.module.css';
 import MoviesListItem from '../MoviesListItem';
+import {
+  clientErrorInvalidQuery,
+  showNotification,
+} from '../../services/notification/notification';
 
 const MoviesList = ({ movies }) => {
   const location = useLocation();
+
+  useEffect(() => {
+    if (movies.length === 0) {
+      showNotification(clientErrorInvalidQuery);
+    }
+  }, [movies.length]);
 
   const getPathName = value => {
     return value ? 'movies' : 'tv';

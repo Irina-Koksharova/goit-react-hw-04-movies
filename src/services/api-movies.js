@@ -12,7 +12,7 @@ const fetchSelectedShow = (kind, id) => {
 
 const fetchSearchingShow = (kind, searchQuery, page) => {
   const searchingShowURL = `https://api.themoviedb.org/3/search/${kind}?api_key=${KEY}&language=en-US&query=${searchQuery}&page=${page}&include_adult=false`;
-  return fetch(searchingShowURL).then(response => response.json());
+  return fetch(searchingShowURL).then(response).then(json);
 };
 
 const fetchCast = (kind, id) => {

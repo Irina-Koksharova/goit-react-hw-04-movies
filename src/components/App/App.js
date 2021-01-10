@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClientProvider, QueryClient } from 'react-query';
+import { ToastContainer } from 'react-toastify';
 import Container from '../Container';
 import Navigation from '../Navigation';
 import Section from '../Section';
@@ -56,6 +57,7 @@ const App = () => {
               </Route>
             </Switch>
           </Suspense>
+          <ToastContainer />
         </Section>
       </Container>
       <ReactQueryDevtools initialIsOpen={true} />
