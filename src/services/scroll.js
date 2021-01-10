@@ -13,4 +13,11 @@ const scrollTo = () => {
   });
 };
 
-export { scrollElement, scrollTo };
+const scrollToParams = () => {
+  window.scrollTo({
+    top: 800,
+    behavior: 'smooth',
+  });
+};
+
+export { scrollElement, scrollTo, scrollToParams };

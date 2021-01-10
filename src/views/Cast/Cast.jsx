@@ -1,37 +1,41 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import s from './Cast.module.css';
 import { fetchCast } from '../../services/api-movies';
-import { scrollElement } from '../../services/scroll';
+import { scrollElement, scrollToParams } from '../../services/scroll';
+import { serverError } from '../../services/notification/notification';
 import Section from '../../components/Section';
 import TitleEditionalInfo from '../../components/TitleEditionalInfo';
 import ActorCard from '../../components/ActorCard';
 import ButtonSmall from '../../components/ButtonSmall';
 import ButtonGoBack from '../../components/ButtonGoBack';
+import Spinner from '../../components/Loader';
+import Notification from '../../components/Notification';
 
-const Cast = ({ title, movie }) => {
-  const [cast, setCast] = useState(null);
+const Cast = ({ sectionTitle, movie }) => {
   const [buttonName, setButtonName] = useState('Show more');
   const history = useHistory();
   const location = useLocation();
   const { url } = useRouteMatch();
+  const { title, id } = movie;
+
+  const getPath = value => {
+    return value
+      ? location.pathname.slice(1, 6)
+      : location.pathname.slice(1, 3);
+  };
+
+  const { isLoading, isError, isSuccess, data } = useQuery(
+    ['cast', getPath(title), id],
+    () => fetchCast(getPath(title), id),
+  );
 
   useEffect(() => {
-    if (!movie) {
-      return;
+    if (data) {
+      scrollToParams();
     }
-    const { id, title } = movie;
-    const getPath = value => {
-      return value
-        ? location.pathname.slice(1, 6)
-        : location.pathname.slice(1, 3);
-    };
-
-    fetchCast(getPath(title), id).then(({ cast }) => {
-      setCast(cast);
-      scrollElement(id);
-    });
-  }, [location.pathname, movie]);
+  }, [data]);
 
   const onButtonClick = e => {
     switch (buttonName) {
@@ -60,35 +64,35 @@ const Cast = ({ title, movie }) => {
     return movie.title ? url.slice(1, 6) : url.slice(1, 3);
   };
 
-  return (
-    <>
-      {cast && (
-        <Section style={{ padding: '25px 0px 0px', textAlign: 'center' }}>
-          <TitleEditionalInfo title={title} movie={movie} />
-          <ul className={s.container}>
-            {cast.map(({ id, profile_path, original_name, character }) => (
-              <li className={s.item} key={id}>
-                <ActorCard
-                  image={profile_path}
-                  name={original_name}
-                  character={character}
-                />
-              </li>
-            ))}
-          </ul>
-          {cast.length > 10 && (
-            <ButtonSmall name={buttonName} onClick={onButtonClick} />
-          )}
-          <div className={s.buttonContainer}>
-            <ButtonGoBack
-              name={`<< back to ${getButtonName()}`}
-              onClick={onButtonGoBackClick}
-            />
-          </div>
-        </Section>
-      )}
-    </>
-  );
+  if (isLoading) return <Spinner />;
+  if (isError) return <Notification message={serverError} />;
+  if (isSuccess) {
+    return (
+      <Section style={{ padding: '25px 0px 0px', textAlign: 'center' }}>
+        <TitleEditionalInfo title={sectionTitle} movie={movie} />
+        <ul className={s.container}>
+          {data.cast.map(({ id, profile_path, original_name, character }) => (
+            <li className={s.item} key={id}>
+              <ActorCard
+                image={profile_path}
+                name={original_name}
+                character={character}
+              />
+            </li>
+          ))}
+        </ul>
+        {data.cast.length > 10 && (
+          <ButtonSmall name={buttonName} onClick={onButtonClick} />
+        )}
+        <div className={s.buttonContainer}>
+          <ButtonGoBack
+            name={`<< back to ${getButtonName()}`}
+            onClick={onButtonGoBackClick}
+          />
+        </div>
+      </Section>
+    );
+  }
 };
 
 export default Cast;
