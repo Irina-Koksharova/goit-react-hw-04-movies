@@ -51,10 +51,10 @@ const TVDetailsPage = () => {
       <Suspense fallback={<Spinner />}>
         <Switch>
           <Route path={`${path}/${links[0]}`}>
-            <Cast title={links[0]} movie={data} />
+            <Cast sectionTitle={links[0]} movie={data} />
           </Route>
           <Route path={`${path}/${links[1]}`}>
-            <Reviews title={links[1]} movie={data} />
+            <Reviews sectionTitle={links[1]} movie={data} />
           </Route>
         </Switch>
       </Suspense>

@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { ToastContainer } from 'react-toastify';
@@ -55,9 +55,10 @@ const App = () => {
               <Route path="/tv/:tvId">
                 <TVDetailsPage />
               </Route>
+              <Redirect to="/" />
             </Switch>
           </Suspense>
-          <ToastContainer />
+          <ToastContainer autoClose={3000} />
         </Section>
       </Container>
       <ReactQueryDevtools initialIsOpen={true} />

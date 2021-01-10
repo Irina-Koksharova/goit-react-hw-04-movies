@@ -6,7 +6,7 @@ import { scrollTo } from '../../services/scroll';
 import {
   clientErrorEmptyQuery,
   serverError,
-  showNotification,
+  showError,
 } from '../../services/notification/notification';
 import SearchBar from '../../components/SearchBar';
 import MoviesList from '../../components/MoviesList';
@@ -37,7 +37,7 @@ const MoviesPage = () => {
 
   const onFormSubmit = query => {
     if (query.trim() === '') {
-      showNotification(clientErrorEmptyQuery);
+      showError(clientErrorEmptyQuery);
     }
     history.push({
       ...location,

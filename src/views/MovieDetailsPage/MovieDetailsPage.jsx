@@ -54,7 +54,7 @@ const MovieDetailsPage = () => {
             <Cast sectionTitle={links[0]} movie={data} />
           </Route>
           <Route path={`${path}/${links[1]}`}>
-            <Reviews title={links[1]} movie={data} />
+            <Reviews sectionTitle={links[1]} movie={data} />
           </Route>
         </Switch>
       </Suspense>

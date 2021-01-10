@@ -11,6 +11,12 @@ const clientErrorInvalidQuery =
 const serverError =
   'Sorry, there are some technical problems 😱😱😱. Please, try again later';
 
+const noReviews = 'Sorry, but we have no reviews for this movie 😨';
+
+const showError = message => {
+  toast.warn(message, { className: `${s.error}` });
+};
+
 const showNotification = message => {
   toast.warn(message, { className: `${s.notify}` });
 };
@@ -19,5 +25,7 @@ export {
   clientErrorEmptyQuery,
   clientErrorInvalidQuery,
   serverError,
+  noReviews,
+  showError,
   showNotification,
 };

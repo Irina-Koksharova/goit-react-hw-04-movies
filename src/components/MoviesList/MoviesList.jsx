@@ -4,7 +4,7 @@ import s from './MoviesList.module.css';
 import MoviesListItem from '../MoviesListItem';
 import {
   clientErrorInvalidQuery,
-  showNotification,
+  showError,
 } from '../../services/notification/notification';
 
 const MoviesList = ({ movies }) => {
@@ -12,7 +12,7 @@ const MoviesList = ({ movies }) => {
 
   useEffect(() => {
     if (movies.length === 0) {
-      showNotification(clientErrorInvalidQuery);
+      showError(clientErrorInvalidQuery);
     }
   }, [movies.length]);
 
