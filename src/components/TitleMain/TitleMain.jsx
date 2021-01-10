@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import s from './TitleMain.module.css';
 
 const TitleMain = ({ title }) => {
@@ -6,6 +7,10 @@ const TitleMain = ({ title }) => {
       {title}
     </h2>
   );
+};
+
+TitleMain.propTypes = {
+  title: PropTypes.string.isRequired,
 };
 
 export default TitleMain;

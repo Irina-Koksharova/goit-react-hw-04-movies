@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import s from './SortSelector.module.css';
 
 const SortSelector = ({ options, onChange, value }) => {
@@ -8,6 +9,12 @@ const SortSelector = ({ options, onChange, value }) => {
       ))}
     </select>
   );
+};
+
+SortSelector.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 export default SortSelector;

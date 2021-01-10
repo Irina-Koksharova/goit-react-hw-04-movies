@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import s from './ActorCard.module.css';
 import { imageURL } from '../../data/url-data';
 import defaultFoto from '../../images/error.jpg';
@@ -16,6 +17,12 @@ const ActorCard = ({ image, name, character }) => {
       <p className={s.text}>{`Character: ${character}`}</p>
     </>
   );
+};
+
+ActorCard.propTypes = {
+  image: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  character: PropTypes.string.isRequired,
 };
 
 export default ActorCard;

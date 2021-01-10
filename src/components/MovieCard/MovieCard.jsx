@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { NavLink, useLocation } from 'react-router-dom';
 import s from './MovieCard.module.css';
 import { imageURL } from '../../data/url-data';
@@ -64,6 +65,11 @@ const MovieCard = ({ movie, url }) => {
       </div>
     </div>
   );
+};
+
+MovieCard.propTypes = {
+  movie: PropTypes.object.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default MovieCard;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
@@ -35,6 +36,10 @@ const SearchBar = ({ onSubmit }) => {
       </Button>
     </form>
   );
+};
+
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default SearchBar;

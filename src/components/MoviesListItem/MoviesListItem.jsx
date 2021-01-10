@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import s from './MoviesListItem.module.css';
 import { imageURL } from '../../data/url-data';
 import { dateConversion } from '../../services/date-conversion';
@@ -28,6 +29,14 @@ const MoviesItem = ({
       </div>
     </>
   );
+};
+
+MoviesItem.propTypes = {
+  image: PropTypes.string,
+  movieTitle: PropTypes.string,
+  tvTitle: PropTypes.string,
+  movieReleaseDate: PropTypes.string,
+  tvReleaseDate: PropTypes.string,
 };
 
 export default MoviesItem;

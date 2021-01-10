@@ -6,6 +6,7 @@ function Section({ children, style }) {
 
 Section.propTypes = {
   children: PropTypes.any,
+  style: PropTypes.object.isRequired,
 };
 
 export default Section;

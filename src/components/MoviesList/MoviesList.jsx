@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import s from './MoviesList.module.css';
@@ -56,6 +57,10 @@ const MoviesList = ({ movies }) => {
       )}
     </ul>
   );
+};
+
+MoviesList.propTypes = {
+  movies: PropTypes.array.isRequired,
 };
 
 export default MoviesList;
